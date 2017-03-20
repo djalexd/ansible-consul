@@ -27,6 +27,16 @@
     regexp: "^conf-dir="
     line: "conf-dir=/etc/dnsmasq.d"
     state: present
+    insertafter: EOF
+    
+- name: enable dnsmasq logging
+  lineinfile:
+    dest: "/etc/dnsmasq.conf"
+    regexp: "^log-queries"
+    line: "log-queries"
+    state: present
+    insertafter: EOF
+  when: "{{ consul_dnsmasq.log_queries | default(false) }}"
 
 - name: ensure configure directory
   file:
@@ -48,6 +58,7 @@
     regexp: "^interface={{ item }}"
     line: "interface={{ item }}"
     dest: /etc/dnsmasq.conf
+    insertafter: EOF    
   with_items:
     "{{ consul_dnsmasq.listen_interface }}"
 
@@ -56,6 +67,7 @@
     regexp: "^no-dhcp-interface={{ item }}"
     line: "no-dhcp-interface={{ item }}"
     dest: /etc/dnsmasq.conf
+    insertafter: EOF    
   with_items:
     "{{ consul_dnsmasq.no_dhcp_interface }}"
 
