@@ -7,7 +7,7 @@ server {
 
   # --- listen ----------------------------------------------------------------
 
-  listen *:{{ consul_ui_server_port }};
+  listen {{ consul_ui_server_addr }}:{{ consul_ui_server_port }};
 
     {% if ansible_os_family == "Debian" -%}
 
